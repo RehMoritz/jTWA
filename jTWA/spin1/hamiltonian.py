@@ -3,6 +3,19 @@ import jax.numpy as jnp
 
 
 def update_cfg(cfg):
+    """
+    Since the energy scale is set by :math:`\\langle N \\rangle c_1 = -1` we have :math:`c_1=-1/\\langle N \\rangle`.
+    This computation is done at runtime to minimize the risk of inconsistencies, when setting :math:`c_1` and :math:`\\langle N \\rangle` simultaneously.
+    However, this also means that all quantities that depend on :math:`c_1` must be computed at runtime as well.
+    This is done within this function.
+
+    Args:
+        * ``cfg``: The dictionary that contains the settings of the current run.
+
+    Returns:
+        * ``cfg``: The altered dictionary that contains the settings of the current run.
+    """
+
     cfg["hamiltonianParameters"]["c_1"] = (
         -1 / cfg["systemParameters"]["n_atoms_per_well"]
     )
@@ -17,6 +30,22 @@ def update_cfg(cfg):
 
 
 def hamiltonian(a_conj, a, cfg):
+    """
+    Defines the hamiltonian of the full system.
+    The function takes both the sample and its complex conjugate as input, so that it is easy to obtain its time derivative
+
+    .. math ::
+
+        \\partial_t \\alpha = \\partial_{\\alpha^*} H(\\alpha, \\alpha^*).
+
+    Args:
+        * ``a_conj``: A single complex conjugated sample.
+        * ``a``: The same sample without complex conjugation.
+        * ``cfg``: The dictionary that contains the settings of the current run.
+
+    Returns:
+        * The energy of the sample.
+    """
     ham_singleWells = jnp.sum(
         jax.vmap(hamiltonian_singleWell, in_axes=(0, 0, None))(a_conj, a, cfg)
     )
@@ -27,6 +56,18 @@ def hamiltonian(a_conj, a, cfg):
 
 
 def hamiltonian_singleWell(a_conj, a, cfg):
+    """
+    Defines the internal hamiltonian of a single well.
+
+    Args:
+        * ``a_conj``: A single complex conjugated sample.
+        * ``a``: The same sample without complex conjugation.
+        * ``cfg``: The dictionary that contains the settings of the current run.
+
+    Returns:
+        * The energy of the sample within a single well.
+    """
+
     N = a * a_conj
 
     return (
