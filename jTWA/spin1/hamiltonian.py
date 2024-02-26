@@ -5,7 +5,7 @@ import jax.numpy as jnp
 def update_cfg(cfg):
     """
     Since the energy scale is set by :math:`\\langle N \\rangle c_1 = -1` we have :math:`c_1=-1/\\langle N \\rangle`.
-    This computation is done at runtime to minimize the risk of inconsistencies, when setting :math:`c_1` and :math:`\\langle N \\rangle` simultaneously.
+    This computation is done at runtime to minimize the risk of inconsistencies, when setting :math:`c_1` and :math:`\\langle N \\rangle` separately.
     However, this also means that all quantities that depend on :math:`c_1` must be computed at runtime as well.
     This is done within this function.
 

@@ -7,8 +7,11 @@ First, clone the repository using
 git clone https://github.com/RehMoritz/jTWA.git
 ```
 
-Switch into the repository folder and create a virtual environment using 
-
+Switch into the repository folder..
+```
+cd jTWA
+```
+..and create a virtual environment using 
 ```
 python -m venv env
 ```

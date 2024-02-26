@@ -3,6 +3,13 @@ import matplotlib.animation as animation
 import numpy as np
 
 def create_visuals(obs, cfg):
+    """
+    ``create_visuals`` is a wrapper function to call other plotting functionality.
+
+    Args:
+        * ``obs``: The observables that are to be used for visualizations.
+        * ``cfg``: The dictionary that contains the settings of the current run, including the working directory.
+    """
     plot_deviations(obs, cfg)
     plot_spin_obs(obs, cfg)
     plot_correlation_matrices(obs, cfg)
@@ -10,6 +17,13 @@ def create_visuals(obs, cfg):
 
 
 def plot_deviations(obs, cfg):
+    """
+    ``plot_deviations`` plots sanity checks, making sure that conservations of particle number and energy are fulfilled.
+
+    Args:
+        * ``obs``: The observables that are to be used for visualizations.
+        * ``cfg``: The dictionary that contains the settings of the current run, including the working directory.
+    """
     fig, ax = plt.subplots(figsize=(7, 3))
 
     ax.plot(
@@ -39,6 +53,13 @@ def plot_deviations(obs, cfg):
 
 
 def plot_spin_obs(obs, cfg):
+    """
+    ``plot_spin_obs`` plots the total side- and zero-mode populations as well as the different momentum-mode populations.
+
+    Args:
+        * ``obs``: The observables that are to be used for visualizations.
+        * ``cfg``: The dictionary that contains the settings of the current run, including the working directory.
+    """
     fig, ax = plt.subplots(nrows=2, figsize=(7, 6), sharex=True)
     ax[0].plot(
         obs["t"][:, 0],
@@ -75,6 +96,14 @@ def plot_spin_obs(obs, cfg):
 
 
 def plot_correlation_matrices(obs, cfg):
+    """
+    ``plot_correlation_matrices`` plots correlation matrices of the two observables in ``obs["spin_obs"]`` at nine evenly distributed points in time.
+    Currently this function assumes that ``obs["spin_obs"]`` only contains the observables :math:`S_x` and :math:`Q_{yz}`.
+
+    Args:
+        * ``obs``: The observables that are to be used for visualizations.
+        * ``cfg``: The dictionary that contains the settings of the current run, including the working directory.
+    """
     n_times, _, n_wells, n_obs = obs["spin_obs"].shape
 
     fig, ax = plt.subplots(nrows=3, ncols=3, figsize=(15, 15), sharex=True, sharey=True)
@@ -102,6 +131,13 @@ def plot_correlation_matrices(obs, cfg):
 
 
 def animate(obs, cfg, fps=15):
+    """
+    ``animate`` generates a video of the evolution of the Wigner distribution given by :math:`S_x` and :math:`Q_{yz}` over time.
+
+    Args:
+        * ``obs``: The observables that are to be used for visualizations.
+        * ``cfg``: The dictionary that contains the settings of the current run, including the working directory.
+    """
     fig = plt.figure(figsize=(4, 4))
 
     scat = plt.scatter(

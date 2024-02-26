@@ -15,3 +15,30 @@
 ```{eval-rst}
 .. autofunction:: jTWA.spin1.hamiltonian.update_cfg
 ```
+
+## jTWA.spin1.initState
+```{eval-rst}
+.. autofunction:: jTWA.spin1.initState.getPolarState
+
+```
+
+## jTWA.spin1.observables
+```{eval-rst}
+.. autofunction:: jTWA.spin1.observables.get_spin_operators
+```
+
+```{eval-rst}
+.. autofunction:: jTWA.spin1.observables.compute_observables
+```
+
+```{eval-rst}
+.. autofunction:: jTWA.spin1.observables.compute_spin_observables
+```
+
+```{eval-rst}
+.. autofunction:: jTWA.spin1.observables.compute_mode_occupations
+```
+
+```{eval-rst}
+.. autofunction:: jTWA.spin1.observables.beamsplit
+```

@@ -5,6 +5,21 @@ jax.config.update("jax_enable_x64", True)
 
 
 def getPolarState(cfg):
+    """
+    Returns samples of the Wigner distribution representing the polar state, with all atoms in the zero mode, so that
+
+    .. math ::
+
+        |\\psi\\rangle = |0, \\alpha, 0\\rangle^{\\otimes N_{wells}}.
+
+    Note that it is also possible to set a temperature :math:`\\beta` that broadens the distribution, accounting for thermal fluctuations.
+
+    Args:
+        * ``cfg``: The dictionary that contains the settings of the current run.
+
+    Returns:
+        * ``samples``: An array of samples of shape (:math:`N_{samples}`, :math:`N_{wells}`, :math:`N_{internal}`).
+    """
     key = jax.random.PRNGKey(cfg["simulationParameters"]["random_seed"])
     samples = jax.random.normal(
         key,

@@ -13,14 +13,16 @@ docs/quickstart
 
 ```{toctree}
 :caption: API Reference - General
-:maxdepth: 2
+:maxdepth: 1
 
 docs/integrate
+docs/util
+docs/visualization
 ```   
 
 ```{toctree}
 :caption: API Reference - Spin 1
-:maxdepth: 3
+:maxdepth: 1
 
 docs/spin1
 ```   

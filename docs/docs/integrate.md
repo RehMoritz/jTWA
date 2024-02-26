@@ -1,6 +1,6 @@
 # jTWA.integrate
 
-``jTWA.integrate`` comprises al functionality that is required to evolve the system of interest in time.
+``jTWA.integrate`` comprises all functionality that is required to evolve the system of interest in time.
 
 ```{eval-rst}
 .. autofunction:: jTWA.integrate.stepper

@@ -4,6 +4,13 @@ import pickle
 
 
 def store_data(obs, cfg):
+    """
+    Store the computed observables to a `pickle file <https://docs.python.org/3/library/pickle.html>`_.
+
+    Args:
+        * ``obs``: A dictionary holding all observables that are to be stored.
+        * ``cfg``: The dictionary that contains the settings of the current run, including the working directory.
+    """
     try:
         os.makedirs(cfg["utilParameters"]["path"])
     except OSError:
@@ -17,6 +24,14 @@ def store_data(obs, cfg):
 
 
 def read_data(cfg):
+    """
+    Read the observables that are stored in the specified folder within ``cfg`` in pickle format.
+
+    Args:
+        * ``cfg``: The dictionary that contains the settings of the current run, including the working directory.
+    Returns:
+        * ``obs``: The dictionary of stored observables.
+    """
     with open(cfg["utilParameters"]["path"] + "data.pickle", "rb") as f:
         obs = pickle.load(f)
     return obs
