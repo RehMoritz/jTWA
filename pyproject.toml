@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jTWA"
+version = "0.0.1"
+authors = [{name = "Moritz Reh", email = "moritz.reh@gmail.com"}]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/RehMoritz/jTWA"
+Issues = "https://github.com/RehMoritz/jTWA/issues"
