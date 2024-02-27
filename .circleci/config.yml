@@ -1,0 +1,26 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.12.1
+    steps:
+      - checkout
+      - run:
+          name: Setup virtual environment
+          command: |
+              python venv env
+              . venv/bin/activate
+              pip install -r requirements.txt
+      - run:
+          name: Run tests
+          command: |
+              cd test
+              pytest
+              pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
+      - store_test_results:
+          path: junit.xml
+  
+workflows:
+  build-and-test:
+    jobs:
+      - test
