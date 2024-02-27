@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
   python: circleci/python@2.1.1
+  codecov: codecov/codecov@4.0.1
 jobs:
-  Run tests:
+  test-and-upload:
     docker:
       - image: cimg/python:3.12.1
     steps:
@@ -21,8 +22,9 @@ jobs:
               pytest --junitxml=./../junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
       - store_test_results:
           path: junit.xml
+      - codecov/upload
   
 workflows:
   test:
     jobs:
-      - Run tests
+      - test-and-upload
