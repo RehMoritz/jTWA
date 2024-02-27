@@ -12,14 +12,14 @@ jobs:
           pkg-manager: pip
           pip-dependency-file: requirements.txt
       - python/install-packages:
-          args: pytest
+          args: pytest, pytest-cov
           pkg-manager: pip
           pypi-cache: false
       - run:
           name: Run tests
           command: |
               cd test
-              coverage run -m pytest --junitxml=./../junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
+              coverage run -m pytest --junitxml=./../junit.xml --cov || ((($? == 5)) && echo 'Did not find any tests to run.')
       - store_test_results:
           path: junit.xml
       - codecov/upload
