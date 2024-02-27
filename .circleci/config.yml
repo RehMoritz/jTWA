@@ -19,7 +19,7 @@ jobs:
           name: Run tests
           command: |
               cd test
-              pytest --junitxml=./../junit.xml --cov || ((($? == 5)) && echo 'Did not find any tests to run.')
+              pytest --junitxml=./../junit.xml --cov . || ((($? == 5)) && echo 'Did not find any tests to run.')
       - store_test_results:
           path: junit.xml
       - codecov/upload
