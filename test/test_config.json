@@ -1,8 +1,8 @@
 {
     "simulationParameters": {
         "n_samples": 1e3,
-        "t_end": 15e0,
-        "dt": 1e-3,
+        "t_end": 8e0,
+        "dt": 1e-2,
         "dt_obs": 1e-1,
         "random_seed": 0,
         "obs": [
@@ -11,7 +11,7 @@
         ]
     },
     "systemParameters": {
-        "n_wells": 10,
+        "n_wells": 5,
         "n_atoms_per_well": 1000,
         "beta": 1e20
     },

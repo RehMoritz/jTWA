@@ -20,10 +20,12 @@ def particle_number_expectation(samples):
 def test_integrate():
     with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
         cfg = json.load(f)
+    cfg["simulationParameters"]["n_samples"] = int(1e2)
 
     cfg = jTWA.spin1.hamiltonian.update_cfg(cfg)
     samples = jTWA.spin1.initState.getPolarState(cfg)
     hamiltonian = jTWA.spin1.hamiltonian.hamiltonian
+    observables = jTWA.spin1.observables.get_spin_operators(cfg)
 
     energy_expectation(samples, cfg, hamiltonian)
     flow = jax.grad(partial(hamiltonian, cfg=cfg), argnums=0)
@@ -41,4 +43,14 @@ def test_integrate():
         particle_number_expectation(samples)
         - particle_number_expectation(samples_propagated)
         < 1e-10
+    )
+
+    obs = jTWA.integrate.stepper(samples, hamiltonian, observables, cfg)
+
+    assert (
+        obs["t"].shape[0]
+        == int(
+            cfg["simulationParameters"]["t_end"] / cfg["simulationParameters"]["dt_obs"]
+        )
+        + 1
     )
