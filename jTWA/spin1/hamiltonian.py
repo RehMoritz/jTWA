@@ -36,7 +36,7 @@ def hamiltonian(a_conj, a, cfg):
 
     .. math ::
 
-        \\partial_t \\alpha = \\partial_{\\alpha^*} H(\\alpha, \\alpha^*).
+        i\\partial_t \\alpha = \\partial_{\\alpha^*} H(\\alpha, \\alpha^*).
 
     Args:
         * ``a_conj``: A single complex conjugated sample.

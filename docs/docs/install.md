@@ -2,11 +2,31 @@
 
 Installing jTWA is simple, however we only tested it on Python 3.12.1.
 
-First, clone the repository using 
+### Using pip
+The easiest option is to create a virtual environment
+```
+python -m venv env
+```
+and activate it
+```
+source env/bin/activate
+```
+before upgrading pip
+```
+pip install --upgrade pip
+```
+Then you can simply run
+```
+pip install jTWA
+```
+which will install jTWA along with its dependencies.
+
+### Cloning the repository
+Alternatively, you can clone the repository (maybe you also forked it first) and install it manually.
+To that end you would first clone the repository using 
 ```
 git clone https://github.com/RehMoritz/jTWA.git
 ```
-
 Switch into the repository folder..
 ```
 cd jTWA
@@ -30,5 +50,3 @@ Next, install the dependencies by running
 ```
 pip install -r requirements.txt
 ```
-
-In the future we will work towards making jTWA available as a PyPI package.
