@@ -5,14 +5,13 @@ import os
 import jTWA
 
 
-with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
-    cfg = json.load(f)
-
-with open(__file__.rsplit("/", 1)[0] + "/data.pickle", "rb") as f:
-    obs = pickle.load(f)
-
-
 def test_visualization():
+    with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
+        cfg = json.load(f)
+
+    with open(__file__.rsplit("/", 1)[0] + "/data.pickle", "rb") as f:
+        obs = pickle.load(f)
+
     os.makedirs(cfg["utilParameters"]["path"])
     jTWA.visualization.plot_deviations(obs, cfg)
     jTWA.visualization.plot_spin_obs(obs, cfg)

@@ -6,16 +6,8 @@ from functools import partial
 
 import jTWA
 
-with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
-    cfg = json.load(f)
 
-cfg = jTWA.spin1.hamiltonian.update_cfg(cfg)
-samples = jTWA.spin1.initState.getPolarState(cfg)
-operators = jTWA.spin1.observables.get_spin_operators(cfg)
-hamiltonian = jTWA.spin1.hamiltonian.hamiltonian
-
-
-def energy_expectation(samples, cfg):
+def energy_expectation(samples, cfg, hamiltonian):
     return jnp.mean(
         jax.vmap(hamiltonian, in_axes=(0, 0, None))(jnp.conj(samples), samples, cfg)
     )
@@ -26,13 +18,21 @@ def particle_number_expectation(samples):
 
 
 def test_integrate():
+    with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
+        cfg = json.load(f)
+
+    cfg = jTWA.spin1.hamiltonian.update_cfg(cfg)
+    samples = jTWA.spin1.initState.getPolarState(cfg)
+    hamiltonian = jTWA.spin1.hamiltonian.hamiltonian
+
+    energy_expectation(samples, cfg, hamiltonian)
     flow = jax.grad(partial(hamiltonian, cfg=cfg), argnums=0)
     samples_propagated = jTWA.integrate.integrate(samples, flow, 1e-3)
 
     assert (
         jnp.abs(
-            energy_expectation(samples_propagated, cfg)
-            - energy_expectation(samples, cfg)
+            energy_expectation(samples_propagated, cfg, hamiltonian)
+            - energy_expectation(samples, cfg, hamiltonian)
         )
         < 1e-5
     )

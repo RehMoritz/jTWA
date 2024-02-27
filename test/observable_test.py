@@ -4,15 +4,8 @@ import json
 
 import jTWA
 
-with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
-    cfg = json.load(f)
 
-cfg = jTWA.spin1.hamiltonian.update_cfg(cfg)
-samples = jTWA.spin1.initState.getPolarState(cfg)
-operators = jTWA.spin1.observables.get_spin_operators(cfg)
-
-
-def test_get_spin_operators():
+def get_spin_operators(operators, cfg):
     assert operators["operators"].shape[0] == len(operators["names"])
     assert operators["operators"].shape == (
         len(cfg["simulationParameters"]["obs"]),
@@ -23,7 +16,7 @@ def test_get_spin_operators():
         assert jnp.all(jnp.conj(o).T == o)
 
 
-def test_compute_observables():
+def compute_observables(operators, samples, cfg):
     key = jax.random.PRNGKey(0)
     keys = jax.random.split(key, samples.shape[0])
 
@@ -62,3 +55,15 @@ def test_compute_observables():
         jnp.diag(jnp.cov(res["spin_obs"].reshape(samples.shape[0], -1).T))
         < jnp.diag(jnp.cov(res["spin_obs_sim"].reshape(samples.shape[0], -1).T))
     )
+
+
+def test_observables():
+    with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
+        cfg = json.load(f)
+
+    cfg = jTWA.spin1.hamiltonian.update_cfg(cfg)
+    samples = jTWA.spin1.initState.getPolarState(cfg)
+    operators = jTWA.spin1.observables.get_spin_operators(cfg)
+
+    get_spin_operators(operators, cfg)
+    compute_observables(operators, samples, cfg)
