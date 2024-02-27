@@ -1,0 +1,28 @@
+{
+    "simulationParameters": {
+        "n_samples": 1e3,
+        "t_end": 15e0,
+        "dt": 1e-3,
+        "dt_obs": 1e-1,
+        "random_seed": 0,
+        "obs": [
+            "Sx",
+            "Qyz"
+        ]
+    },
+    "systemParameters": {
+        "n_wells": 10,
+        "n_atoms_per_well": 1000,
+        "beta": 1e20
+    },
+    "hamiltonianParameters": {
+        "timeDependentParametersFile": "",
+        "c_0/c_1": 0,
+        "p/c_1": 0,
+        "q": 1.0,
+        "J": 1.0
+    },
+    "utilParameters": {
+        "path": "data/myFolder/"
+    }
+}
