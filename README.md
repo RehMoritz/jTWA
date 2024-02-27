@@ -1,5 +1,5 @@
 # jTWA
-[![Documentation Status](https://readthedocs.org/projects/jtwa/badge/?version=latest)](https://jtwa.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jtwa/badge/?version=latest)](https://jtwa.readthedocs.io/en/latest/?badge=latest) [![codecov](https://codecov.io/github/RehMoritz/jTWA/graph/badge.svg?token=TY92JAI1V9)](https://codecov.io/github/RehMoritz/jTWA)
 
 jTWA implements the semiclassical [Truncated Wigner Approximation (TWA)](https://www.sciencedirect.com/science/article/pii/S0003491610000382?via%3Dihub) in python, relying on Google's jax library.
 This allows to write easily understandable python code without compromising on speed, as all calculations are compiled and executed on GPUs, if available.
