@@ -3,7 +3,7 @@
 Installing jTWA is simple, however we only tested it on Python 3.12.1.
 
 ### Using pip
-The easiest option is to create a virtual environment
+The easiest option is to install the latest package release directly from [PyPI](https://pypi.org/project/jTWA/). To that end, you may create a virtual environment
 ```
 python -m venv env
 ```
