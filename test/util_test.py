@@ -14,6 +14,7 @@ def test_store_data():
     obs = {"myTestObservable": 1}
 
     jTWA.util.store_data(obs, cfg)
+    jTWA.util.store_data(obs, cfg)
     read_obs = jTWA.util.read_data(cfg)
 
     assert obs == read_obs
@@ -21,4 +22,4 @@ def test_store_data():
     os.remove(cfg["utilParameters"]["path"] + "data.pickle")
     os.remove(cfg["utilParameters"]["path"] + "config.json")
     os.rmdir(cfg["utilParameters"]["path"])
-    os.rmdir(cfg["utilParameters"]["path"].split("/")[0] + "/")
+    os.rmdir(cfg["utilParameters"]["path"].rsplit("/", 2)[0] + "/")

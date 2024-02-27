@@ -23,6 +23,6 @@
         "J": 1.0
     },
     "utilParameters": {
-        "path": "data/myFolder/"
+        "path": "test/data/myFolder/"
     }
 }
