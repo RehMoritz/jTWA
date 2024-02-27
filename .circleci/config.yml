@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.1.1
 jobs:
-  test:
+  Run tests:
     docker:
       - image: cimg/python:3.12.1
     steps:
@@ -23,6 +23,6 @@ jobs:
           path: junit.xml
   
 workflows:
-  build-and-test:
+  test:
     jobs:
-      - test
+      - Run tests
