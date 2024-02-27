@@ -10,11 +10,14 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
           pip-dependency-file: requirements.txt
+      - python/install-packages:
+          args: pytest
+          pkg-manager: pip
+          pypi-cache: false
       - run:
           name: Run tests
           command: |
               cd test
-              pytest
               pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
       - store_test_results:
           path: junit.xml
