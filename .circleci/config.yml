@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
+  codecov: codecov/codecov@4.0.1
   python: circleci/python@2.1.1
 jobs:
-  Run tests:
+  test-and-upload:
     docker:
       - image: cimg/python:3.12.1
     steps:
@@ -11,18 +12,16 @@ jobs:
           pkg-manager: pip
           pip-dependency-file: requirements.txt
       - python/install-packages:
-          args: pytest
+          args: pytest pytest-cov
           pkg-manager: pip
           pypi-cache: false
       - run:
           name: Run tests
           command: |
-              cd test
-              pytest --junitxml=./../junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
-      - store_test_results:
-          path: junit.xml
+              pytest --cov=jTWA/
+      - codecov/upload
   
 workflows:
   test:
     jobs:
-      - Run tests
+      - test-and-upload

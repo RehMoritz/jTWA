@@ -2,7 +2,7 @@ import jTWA
 import jax.numpy as jnp
 import json
 
-with open("test_config.json") as f:
+with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
     cfg = json.load(f)
 
 samples = jTWA.spin1.initState.getPolarState(cfg)
