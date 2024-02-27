@@ -5,7 +5,7 @@ import json
 import jTWA
 
 
-with open("test_config.json") as f:
+with open(__file__.rsplit("/", 1)[0] + "/test_config.json") as f:
     cfg = json.load(f)
 
 cfg = jTWA.spin1.hamiltonian.update_cfg(cfg)

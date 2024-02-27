@@ -18,8 +18,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-              cd test
-              coverage run -m pytest --junitxml=./../junit.xml --cov || ((($? == 5)) && echo 'Did not find any tests to run.')
+              coverage run -m pytest --junitxml=junit.xml --cov=jTWA/ || ((($? == 5)) && echo 'Did not find any tests to run.')
       - store_test_results:
           path: junit.xml
       - codecov/upload
