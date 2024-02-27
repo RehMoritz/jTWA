@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
 
+
 def create_visuals(obs, cfg):
     """
     ``create_visuals`` is a wrapper function to call other plotting functionality.
@@ -110,12 +111,14 @@ def plot_correlation_matrices(obs, cfg):
     idxs = np.linspace(0, n_times, 9, dtype=int)
 
     for counter, (idx, ax_) in enumerate(zip(idxs, ax.ravel())):
-        corr_mat = np.corrcoef(obs["spin_obs"][idx, ...].reshape((-1, n_wells * n_obs)).T)
-        ax_.imshow(corr_mat, vmin=-1, vmax=1, cmap='seismic')
+        corr_mat = np.corrcoef(
+            obs["spin_obs"][idx, ...].reshape((-1, n_wells * n_obs)).T
+        )
+        ax_.imshow(corr_mat, vmin=-1, vmax=1, cmap="seismic")
         ax_.text(
             0.7,
             0.92,
-            rf"$\langle N \rangle c_1 t = {obs["t"][idx, 0]:.1f}$",
+            rf'$\langle N \rangle c_1 t = {obs["t"][idx, 0]:.1f}$',
             fontsize=14,
             weight="bold",
             transform=ax_.transAxes,
