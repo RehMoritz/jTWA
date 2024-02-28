@@ -12,3 +12,9 @@ python main.py config.json
 ```
 
 in the root directory with the previously installed virtual environment activated.
+
+The contents of `main.py` are listed here for completeness:
+
+```{eval-rst}
+.. literalinclude :: ../../main.py
+```

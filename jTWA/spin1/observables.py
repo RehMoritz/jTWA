@@ -64,14 +64,14 @@ def beamsplit(sample, key):
     return mixer @ sample
 
 
-def compute_spin_observables(operators, samples, norm):
+def compute_spin_observables(operators, sample, norm):
     """
     Compute the single-well spin observables that are contained in ``operators``.
-    ``samples`` is an array that is expected to be of shape (:math:`N_{wells}`, :math:`N_{internal}`) and ``norm`` is a normalization factor.
+    ``sample`` is an array representing a single sample that is expected to be of shape (:math:`N_{wells}`, :math:`N_{internal}`) and ``norm`` is a normalization factor.
 
     Args:
         * ``operators``: An array of shape (:math:`N_{obs}`, 3, 3) corresponding to the Jordan-Schwinger matrix representations of the spin-1 operators obtained with :meth:`get_spin_operators`.
-        * ``samples``: A single sample of shape (:math:`N_{wells}`, :math:`N_{internal}`) for which the operators are evaluated.
+        * ``sample``: A single sample of shape (:math:`N_{wells}`, :math:`N_{internal}`) for which the operators are evaluated.
         * ``norm``: A normalization factor, usually taken to be :math:`\\sqrt{2 \\langle N \\rangle}`.
 
     Returns:
@@ -83,31 +83,31 @@ def compute_spin_observables(operators, samples, norm):
         jax.vmap(
             jax.vmap(lambda o, s: jnp.real(jnp.conj(s) @ o @ s), in_axes=(0, None)),
             in_axes=(None, 0),
-        )(operators, samples)
+        )(operators, sample)
         / norm
     )
 
 
-def compute_mode_occupations(samples):
+def compute_mode_occupations(sample):
     """
-    Compute the mode occupations of all samples.
+    Compute the mode occupations of a sample.
 
     Args:
-        * ``samples``: A single sample of shape (:math:`N_{wells}`, :math:`N_{internal}`) for which the mode occupations are computed.
+        * ``sample``: A single sample of shape (:math:`N_{wells}`, :math:`N_{internal}`) for which the mode occupations are computed.
 
     Returns:
         * Occupations in each mode of each well for each sample.
     """
-    return jnp.abs(samples) ** 2
+    return jnp.abs(sample) ** 2
 
 
 @jax.jit
-def compute_observables(samples, key, spin_operators, norm):
+def compute_observables(sample, key, spin_operators, norm):
     """
     Compute spin observables as well as occupations in both real space and momentum space.
 
     Args:
-        * ``samples``: A single sample of shape (:math:`N_{wells}`, :math:`N_{internal}`).
+        * ``sample``: A single sample of shape (:math:`N_{wells}`, :math:`N_{internal}`).
         * ``key``: A ``jax.random.PRNGKey``, used to add Gaussian noise to the sample.
         * ``operators``: An array of shape (:math:`N_{obs}`, 3, 3) corresponding to the Jordan-Schwinger matrix representations of the spin-1 operators obtained with :meth:`get_spin_operators`.
         * ``norm``: A normalization factor, usually taken to be :math:`\\sqrt{2 \\langle N \\rangle}`.
@@ -115,15 +115,15 @@ def compute_observables(samples, key, spin_operators, norm):
     Returns:
         * Occupations in each mode of each well for each sample.
     """
-    keys = jax.random.split(key, num=samples.shape[0])
-    samples_momentumMode = jnp.fft.fft(samples, axis=0, norm="ortho")
+    keys = jax.random.split(key, num=sample.shape[0])
+    sample_momentumMode = jnp.fft.fft(sample, axis=0, norm="ortho")
 
-    atom_number = compute_mode_occupations(samples)
-    atom_number_momentumMode = compute_mode_occupations(samples_momentumMode)
+    atom_number = compute_mode_occupations(sample)
+    atom_number_momentumMode = compute_mode_occupations(sample_momentumMode)
 
-    obs = compute_spin_observables(spin_operators, samples, norm)
-    samples_split = jax.vmap(beamsplit, in_axes=(0, 0))(samples, keys)
-    obs_sim = compute_spin_observables(spin_operators, samples_split[:, :3], norm)
+    obs = compute_spin_observables(spin_operators, sample, norm)
+    sample_split = jax.vmap(beamsplit, in_axes=(0, 0))(sample, keys)
+    obs_sim = compute_spin_observables(spin_operators, sample_split[:, :3], norm)
 
     return {
         "atom_number_realspace": atom_number,

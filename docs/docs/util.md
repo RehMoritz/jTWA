@@ -3,7 +3,7 @@
 ``jTWA.util`` comprises read and write functionality of observables.
 
 ```{eval-rst}
-.. autofunction:: jTWA.util.store_data
+.. autofunction:: jTWA.util.write_data
 ```
 
 ```{eval-rst}

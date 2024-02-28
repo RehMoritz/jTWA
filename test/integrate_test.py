@@ -45,7 +45,7 @@ def test_integrate():
         < 1e-10
     )
 
-    obs = jTWA.integrate.stepper(samples, hamiltonian, observables, cfg)
+    obs = jTWA.integrate.obtain_evolution(samples, hamiltonian, observables, cfg)
 
     assert (
         obs["t"].shape[0]

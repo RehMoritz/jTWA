@@ -12,8 +12,8 @@ def test_storeandread_data():
 
     obs = {"myTestObservable": 1}
 
-    jTWA.util.store_data(obs, cfg)
-    jTWA.util.store_data(obs, cfg)
+    jTWA.util.write_data(obs, cfg)
+    jTWA.util.write_data(obs, cfg)
     read_obs = jTWA.util.read_data(cfg)
 
     assert obs == read_obs

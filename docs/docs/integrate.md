@@ -3,7 +3,7 @@
 ``jTWA.integrate`` comprises all functionality that is required to evolve the system of interest in time.
 
 ```{eval-rst}
-.. autofunction:: jTWA.integrate.stepper
+.. autofunction:: jTWA.integrate.obtain_evolution
 ```
 
 ```{eval-rst}

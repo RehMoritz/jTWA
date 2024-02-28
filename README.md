@@ -33,14 +33,14 @@ if __name__ == "__main__":
     with open(configuration_file) as f:
         cfg = json.load(f)
 
-    observables = jTWA.spin1.observables.get_spin_operators(cfg)
+    spin_operators = jTWA.spin1.observables.get_spin_operators(cfg)
     samples = jTWA.spin1.initState.getPolarState(cfg)
 
     cfg = jTWA.spin1.hamiltonian.update_cfg(cfg)
     hamiltonian = jTWA.spin1.hamiltonian.hamiltonian
 
-    obs = jTWA.integrate.stepper(samples, hamiltonian, observables, cfg)
-    jTWA.util.store_data(obs, cfg)
+    obs = jTWA.integrate.obtain_evolution(samples, hamiltonian, spin_operators, cfg)
+    jTWA.util.write_data(obs, cfg)
 
     obs = jTWA.util.read_data(cfg)
     jTWA.visualization.create_visuals(obs, cfg)

@@ -3,9 +3,9 @@ import json
 import pickle
 
 
-def store_data(obs, cfg):
+def write_data(obs, cfg):
     """
-    Store the computed observables to a `pickle file <https://docs.python.org/3/library/pickle.html>`_.
+    Write the computed observables to a `pickle file <https://docs.python.org/3/library/pickle.html>`_ in the dictionary that is specified in ``cfg``.
 
     Args:
         * ``obs``: A dictionary holding all observables that are to be stored.

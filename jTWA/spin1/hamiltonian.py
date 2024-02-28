@@ -29,7 +29,7 @@ def update_cfg(cfg):
     return cfg
 
 
-def hamiltonian(a_conj, a, cfg):
+def hamiltonian(sample_conj, sample, cfg):
     """
     Defines the hamiltonian of the full system.
     The function takes both the sample and its complex conjugate as input, so that it is easy to obtain its time derivative
@@ -38,48 +38,53 @@ def hamiltonian(a_conj, a, cfg):
 
         i\\partial_t \\alpha = \\partial_{\\alpha^*} H(\\alpha, \\alpha^*).
 
+    Here :math:`\\alpha` is the vector of length :math:`N_{wells} \\cdot N_{internal}` for which the time derivative is computed by differentiating :math:`H` with respect to the complex conjugated sample :math:`\\alpha^*`.
+
     Args:
-        * ``a_conj``: A single complex conjugated sample.
-        * ``a``: The same sample without complex conjugation.
+        * ``sample_conj``: A single complex conjugated sample.
+        * ``sample``: The same sample without complex conjugation.
         * ``cfg``: The dictionary that contains the settings of the current run.
 
     Returns:
         * The energy of the sample.
     """
     ham_singleWells = jnp.sum(
-        jax.vmap(hamiltonian_singleWell, in_axes=(0, 0, None))(a_conj, a, cfg)
+        jax.vmap(hamiltonian_singleWell, in_axes=(0, 0, None))(sample_conj, sample, cfg)
     )
     ham_jump = cfg["hamiltonianParameters"]["J"] * jnp.sum(
-        (a_conj * jnp.roll(a, 1, axis=0) + a * jnp.roll(a_conj, 1, axis=0))[1:, [0, 2]]
+        (
+            sample_conj * jnp.roll(sample, 1, axis=0)
+            + sample * jnp.roll(sample_conj, 1, axis=0)
+        )[1:, [0, 2]]
     )
     return jnp.real(ham_singleWells + ham_jump)
 
 
-def hamiltonian_singleWell(a_conj, a, cfg):
+def hamiltonian_singleWell(sample_conj, sample, cfg):
     """
     Defines the internal hamiltonian of a single well.
 
     Args:
-        * ``a_conj``: A single complex conjugated sample.
-        * ``a``: The same sample without complex conjugation.
+        * ``sample_conj``: A single complex conjugated sample.
+        * ``sample``: The same sample without complex conjugation.
         * ``cfg``: The dictionary that contains the settings of the current run.
 
     Returns:
         * The energy of the sample within a single well.
     """
 
-    N = a * a_conj
+    N = sample * sample_conj
 
     return (
         cfg["hamiltonianParameters"]["c_1"]
         * (
-            a_conj[0] * a_conj[2] * a[1] ** 2
-            + a[0] * a[2] * a_conj[1] ** 2
+            sample_conj[0] * sample_conj[2] * sample[1] ** 2
+            + sample[0] * sample[2] * sample_conj[1] ** 2
             + (N[1] - 0.5) * (N[2] + N[0] - 1)
             + 0.5
             * (
-                a_conj[0] * a_conj[0] * a[0] * a[0]
-                + a_conj[2] * a_conj[2] * a[2] * a[2]
+                sample_conj[0] * sample_conj[0] * sample[0] * sample[0]
+                + sample_conj[2] * sample_conj[2] * sample[2] * sample[2]
                 - 2 * N[2] * N[0]
             )
             + jnp.sum(N)
