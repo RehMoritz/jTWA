@@ -11,7 +11,7 @@ import jTWA
 project = "jTWA"
 copyright = "2024, Moritz Reh"
 author = "Moritz Reh"
-release = "0.0.3"
+release = "0.0.4"
 
 # -- General configuration ---------------------------------------------------
 
